@@ -275,19 +275,48 @@
   z-index: -1;
   top: 50%;
   left: calc(50% + 45px);
-  width: min(440px, 112vw);
+  width: min(390px, 100vw);
   height: 100%;
   pointer-events: none;
-  opacity: 0.88;
+  opacity: 0.82;
   transform: translate(-50%, -50%);
+  animation: character-drift 7s ease-in-out infinite alternate;
   -webkit-mask-image: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.46) 16%, #000 38%, #000 79%, transparent);
   mask-image: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.46) 16%, #000 38%, #000 79%, transparent);
+}
+
+.character::before {
+  position: absolute;
+  z-index: 1;
+  top: 34%;
+  left: 67%;
+  width: 72px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(164, 24, 38, 0.52), transparent 70%);
+  content: "";
+  filter: blur(7px);
+  animation: ghoul-signal 3.8s ease-in-out infinite alternate;
+}
+
+.character::after {
+  position: absolute;
+  z-index: 2;
+  top: 39%;
+  left: 68%;
+  width: 10px;
+  height: 3px;
+  border-radius: 50%;
+  background: #b51e2d;
+  box-shadow: 0 0 8px 2px rgba(181, 30, 45, 0.72);
+  content: "";
+  animation: ghoul-eye 4.6s ease-in-out infinite;
 }
 
 .characterImage {
   object-fit: contain;
   object-position: center;
-  filter: contrast(1.12) saturate(0.86) drop-shadow(0 10px 22px rgba(104, 16, 31, 0.35));
+  filter: grayscale(0.36) brightness(0.84) contrast(1.28) saturate(0.72) drop-shadow(0 10px 24px rgba(104, 16, 31, 0.52));
 }
 
 .portraitFrame {
@@ -295,16 +324,25 @@
   --pointer-y: 50%;
   position: relative;
   z-index: 1;
-  width: min(224px, 60vw);
-  height: min(296px, 76vw);
-  min-height: 270px;
+  width: min(196px, 52vw);
+  height: min(216px, 58vw);
   overflow: hidden;
-  border: 1px solid rgba(201, 169, 106, 0.74);
-  border-radius: 49% 49% 16px 16px;
+  border: 1px solid rgba(201, 169, 106, 0.68);
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 10%,
+    100% 90%,
+    90% 100%,
+    10% 100%,
+    0 90%,
+    0 10%
+  );
   background: #171518;
   box-shadow:
-    0 18px 48px rgba(0, 0, 0, 0.4),
-    0 0 34px rgba(104, 16, 31, 0.16);
+    0 20px 48px rgba(0, 0, 0, 0.52),
+    0 0 38px rgba(104, 16, 31, 0.22),
+    inset 0 0 24px rgba(0, 0, 0, 0.28);
   animation: portrait-float 5s ease-in-out infinite alternate,
     frame-glow 6s ease-in-out infinite alternate;
   transform-style: preserve-3d;
@@ -315,8 +353,12 @@
   position: absolute;
   z-index: 3;
   inset: 0;
-  border: 1px solid rgba(242, 236, 224, 0.11);
+  border: 1px solid rgba(242, 236, 224, 0.14);
+  background:
+    linear-gradient(155deg, transparent 45%, rgba(5, 5, 7, 0.3)),
+    radial-gradient(ellipse at 50% 40%, transparent 36%, rgba(5, 5, 7, 0.28));
   border-radius: inherit;
+  box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.34);
   content: "";
   pointer-events: none;
 }
@@ -343,7 +385,7 @@
 .portraitImage {
   object-fit: cover;
   object-position: center 38%;
-  filter: contrast(1.04) saturate(0.92);
+  filter: brightness(0.82) contrast(1.1) saturate(0.78);
   animation: portrait-zoom 12s ease-in-out infinite alternate;
 }
 
@@ -944,6 +986,21 @@
 @keyframes drift {
   from { transform: translate3d(-12px, -8px, 0) scale(1); }
   to { transform: translate3d(16px, 18px, 0) scale(1.08); }
+}
+
+@keyframes character-drift {
+  from { transform: translate(-50%, -50%) translateY(2px); }
+  to { transform: translate(-50%, -50%) translateY(-5px); }
+}
+
+@keyframes ghoul-signal {
+  from { opacity: 0.2; transform: scale(0.82); }
+  to { opacity: 0.68; transform: scale(1.12); }
+}
+
+@keyframes ghoul-eye {
+  0%, 74%, 82%, 100% { opacity: 0.18; }
+  78% { opacity: 1; }
 }
 
 @keyframes frame-glow {
